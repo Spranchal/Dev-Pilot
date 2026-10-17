@@ -24,7 +24,8 @@ import lombok.Setter;
 @Table(name="users")
 @Builder 
 
-public class User {
+public class User implements java.io.Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id 
     @GeneratedValue(strategy = GenerationType.UUID)
