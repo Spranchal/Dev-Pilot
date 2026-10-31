@@ -1,0 +1,58 @@
+# ===================================================================
+# DevPilot Root Git Ignore
+# ===================================================================
+
+# Environment files & secrets (NEVER COMMIT)
+.env
+.env.*
+!.env.example
+*.env
+*-local.properties
+application-local.properties
+
+# Operating System & IDEs
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# JVM, Crash dumps & logs
+*.log
+hs_err_pid*
+replay_pid*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Backend build outputs
+backend/target/
+backend/.flattened-pom.xml
+backend/.apt_generated
+backend/.classpath
+backend/.factorypath
+backend/.project
+backend/.settings
+backend/.sts4-cache
+
+# Frontend build outputs & dependencies
+client/node_modules/
+client/.next/
+client/out/
+client/build/
+client/.vercel
+client/*.tsbuildinfo
+
+# Docker volumes & local data
+devpilot_pg_data/
+

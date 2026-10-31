@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import devPilot.backend.entity.User;
+import devPilot.backend.exceptions.NotFoundException;
 import devPilot.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -41,9 +42,14 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User requiredById(UUID id) {
+    public User requireById(UUID id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
+    }
+
+    @Transactional(readOnly = true)
+    public User requiredById(UUID id) {
+        return requireById(id);
     }
     
     public String decryptAccessToken(User user) {

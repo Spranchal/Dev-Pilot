@@ -1,15 +1,19 @@
+import Link from "next/link";
 import {
   Check,
   ExternalLink,
   GitBranch,
   Globe2,
   LockKeyhole,
+  Loader2,
+  MessageSquare,
   Play,
   RotateCw,
 } from "lucide-react";
+import { cn } from "cn";
 
 import type { Repository } from "@/lib/api";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -35,6 +39,9 @@ export function RepoCard({
     FAILED: "Failed",
   }[repository.indexStatus];
 
+  const canNavigateToChat =
+    repository.indexStatus === "READY" || repository.indexStatus === "INDEXING";
+
   return (
     <Card className="h-full gap-0 rounded-2xl border-border/70 bg-card py-0 shadow-none transition-colors hover:border-border hover:bg-muted/10">
       <CardHeader className="gap-3 px-4 pt-4 pb-3">
@@ -52,7 +59,16 @@ export function RepoCard({
               {repository.owner}
             </p>
             <CardTitle className="truncate text-sm font-semibold">
-              {repository.name}
+              {canNavigateToChat ? (
+                <Link
+                  href={`/chat/${repository.id}`}
+                  className="transition-colors hover:text-primary hover:underline"
+                >
+                  {repository.name}
+                </Link>
+              ) : (
+                repository.name
+              )}
             </CardTitle>
           </div>
           <Badge
@@ -155,23 +171,67 @@ export function RepoCard({
             {repository.fullName}
           </a>
 
-          {onStartIndexing && repository.indexStatus !== "INDEXING" && (
-            <Button
-              type="button"
-              variant="default"
-              size="sm"
-              onClick={() => onStartIndexing(repository.id)}
-              disabled={isStartingIndexing}
-              className="h-7 rounded-lg bg-primary px-2.5 text-xs"
-            >
-              {repository.indexStatus === "READY" ? (
-                <RotateCw aria-hidden="true" />
-              ) : (
-                <Play aria-hidden="true" />
-              )}
-              {repository.indexStatus === "READY" ? "Reindex" : "Index"}
-            </Button>
-          )}
+          <div className="flex items-center gap-1.5">
+            {repository.indexStatus === "READY" && (
+              <>
+                {onStartIndexing && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onStartIndexing(repository.id)}
+                    disabled={isStartingIndexing}
+                    className="h-7 rounded-lg px-2 text-xs text-muted-foreground hover:text-foreground"
+                    title="Re-index repository"
+                  >
+                    <RotateCw className="size-3" aria-hidden="true" />
+                    <span className="sr-only sm:inline ml-1 text-[11px]">Reindex</span>
+                  </Button>
+                )}
+                <Link
+                  href={`/chat/${repository.id}`}
+                  className={cn(
+                    buttonVariants({ variant: "default", size: "sm" }),
+                    "h-7 rounded-lg bg-primary px-3 text-xs gap-1.5 font-medium shadow-sm"
+                  )}
+                >
+                  <MessageSquare className="size-3.5" aria-hidden="true" />
+                  Chat
+                </Link>
+              </>
+            )}
+
+            {repository.indexStatus === "INDEXING" && (
+              <Link
+                href={`/chat/${repository.id}`}
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "h-7 rounded-lg border-primary/40 px-2.5 text-xs text-primary hover:bg-primary/10 gap-1.5"
+                )}
+              >
+                <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />
+                View Progress
+              </Link>
+            )}
+
+            {(repository.indexStatus === "PENDING" || repository.indexStatus === "FAILED") && onStartIndexing && (
+              <Button
+                type="button"
+                variant="default"
+                size="sm"
+                onClick={() => onStartIndexing(repository.id)}
+                disabled={isStartingIndexing}
+                className="h-7 rounded-lg bg-primary px-2.5 text-xs gap-1.5"
+              >
+                {repository.indexStatus === "FAILED" ? (
+                  <RotateCw className="size-3.5" aria-hidden="true" />
+                ) : (
+                  <Play className="size-3.5" aria-hidden="true" />
+                )}
+                {repository.indexStatus === "FAILED" ? "Retry" : "Index"}
+              </Button>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>

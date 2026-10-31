@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { RequireAuth } from "@/components/providers/require-auth";
 import { AppShell } from "@/components/layout/app-shell";
@@ -19,6 +20,7 @@ export default function DashboardPage() {
 }
 
 function DashboardContent() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const reposQuery = useRepos();
   const refreshRepos = useRefreshRepos();
@@ -27,6 +29,14 @@ function DashboardContent() {
   const readyCount = repositories.filter(
     (repository) => repository.indexStatus === "READY"
   ).length;
+
+  const handleStartIndexing = (repositoryId: string) => {
+    startIndexing.mutate(repositoryId, {
+      onSuccess: () => {
+        router.push(`/chat/${repositoryId}`);
+      },
+    });
+  };
 
   return (
     <AppShell hideHeader>
@@ -44,9 +54,7 @@ function DashboardContent() {
           search={search}
           isLoading={reposQuery.isPending}
           error={reposQuery.error}
-          onStartIndexing={(repositoryId) =>
-            startIndexing.mutate(repositoryId)
-          }
+          onStartIndexing={handleStartIndexing}
           indexingRepositoryId={
             startIndexing.isPending ? startIndexing.variables : undefined
           }

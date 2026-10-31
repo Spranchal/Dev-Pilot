@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation,useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 import { api, ApiError } from "@/lib/api";
@@ -19,33 +19,32 @@ export function setAuthCookie(authed: boolean) {
 }
 
 export function useCurrentUser() {
-    return useQuery({
-        queryKey: queryKeys.auth.me(),
-        queryFn: async () => {
-            try {
-                const user = await api.me();
-                setAuthCookie(true);
-                return user;
-            } catch (error) {
-                setAuthCookie(false);
-                throw error;
-            }
-        }
-    })
+  return useQuery({
+    queryKey: queryKeys.auth.me(),
+    queryFn: async () => {
+      try {
+        const user = await api.me();
+        setAuthCookie(true);
+        return user;
+      } catch (error) {
+        setAuthCookie(false);
+        throw error;
+      }
+    },
+  });
 }
 
 export function useLogout() {
-    const queryClient = useQueryClient();
-    const router = useRouter();
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
-    return useMutation({
-        mutationFn: () => api.logout(),
+  return useMutation({
+    mutationFn: () => api.logout(),
 
-        onSettled: async () => {
-            setAuthCookie(false);
-            queryClient.setQueryData(queryKeys.auth.me(), null);
-            await queryClient.invalidateQueries({ queryKey: queryKeys.auth.all});
-            router.replace("/login");
-        },
-    });
+    onSettled: async () => {
+      setAuthCookie(false);
+      queryClient.clear();
+      router.replace("/");
+    },
+  });
 }

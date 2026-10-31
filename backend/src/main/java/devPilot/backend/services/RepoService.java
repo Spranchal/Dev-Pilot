@@ -4,27 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.time.Instant;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.Instant;
 
 import devPilot.backend.dto.IndexStatusResponse;
 import devPilot.backend.dto.RepositoryResponse;
+import devPilot.backend.entity.IndexStatus;
 import devPilot.backend.entity.Repository;
 import devPilot.backend.entity.User;
 import devPilot.backend.exceptions.NotFoundException;
 import devPilot.backend.repository.RepositoryRepository;
 import devPilot.backend.services.github.GithubApiClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service 
 @RequiredArgsConstructor 
+@Slf4j
 public class RepoService {
+
+    private final RepositoryRepository repositoryRepository;
+    private final UserService userService;
+    private final GithubApiClient githubApiClient;
 
     @Transactional 
     public List<RepositoryResponse> syncAndListRepos(UUID userId) {
-        User user = userService.requiredById(userId);
+        User user = userService.requireById(userId);
         String token = userService.decryptAccessToken(user);
 
         List<Map<String, Object>> remoteRepos =
@@ -69,6 +76,9 @@ public class RepoService {
                     ? String.valueOf(remote.get("description"))
                     : null);
 
+            // If repository was stuck in INDEXING without recent updates, mark as FAILED
+            checkAndRecoverStaleIndexing(repo);
+
             repo.setUpdatedAt(Instant.now());
 
             if (repo.getOwner() == null || repo.getOwner().isBlank()) {
@@ -90,12 +100,15 @@ public class RepoService {
                 .toList();
     }
 
-
-    @Transactional(readOnly = true)
+    @Transactional
     public List<RepositoryResponse> listStored(UUID userId) {
-        return repositoryRepository
-                .findByUserIdOrderByFullNameAsc(userId)
-                .stream()
+        List<Repository> repos = repositoryRepository.findByUserIdOrderByFullNameAsc(userId);
+        for (Repository repo : repos) {
+            if (checkAndRecoverStaleIndexing(repo)) {
+                repositoryRepository.save(repo);
+            }
+        }
+        return repos.stream()
                 .map(this::toResponse)
                 .toList();
     }
@@ -107,9 +120,12 @@ public class RepoService {
                 .orElseThrow(() -> new NotFoundException("Repository not found"));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public IndexStatusResponse status(UUID repoId, UUID userId) {
         Repository repo = requireOwned(repoId, userId);
+        if (checkAndRecoverStaleIndexing(repo)) {
+            repositoryRepository.save(repo);
+        }
 
         return new IndexStatusResponse(
                 repo.getId(),
@@ -143,9 +159,20 @@ public class RepoService {
         );
     }
 
-    private final RepositoryRepository repositoryRepository;
-    private final UserService userService;
-    private final GithubApiClient githubApiClient;
+    private boolean checkAndRecoverStaleIndexing(Repository repo) {
+        if (repo.getIndexStatus() == IndexStatus.INDEXING) {
+            Instant lastUpdate = repo.getUpdatedAt();
+            // If updated > 2 minutes ago or never updated, it's stale
+            if (lastUpdate == null || Instant.now().minusSeconds(120).isAfter(lastUpdate)) {
+                log.info("Detected stale indexing state for repo {}, resetting to FAILED", repo.getFullName());
+                repo.setIndexStatus(IndexStatus.FAILED);
+                repo.setErrorMessage("Indexing was interrupted or timed out. Click Retry to re-index.");
+                repo.setUpdatedAt(Instant.now());
+                return true;
+            }
+        }
+        return false;
+    }
 
     private static Long toLong(Object value) {
         if (value instanceof Number number) {
@@ -153,5 +180,4 @@ public class RepoService {
         }
         return Long.parseLong(String.valueOf(value));
     }
-    
 }

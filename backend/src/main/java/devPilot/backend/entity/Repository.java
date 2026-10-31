@@ -74,9 +74,11 @@ public class Repository {
     private Instant indexedAt;
     
     @Column (name = "chunk_count", nullable = false)
+    @Builder.Default
     private int chunkCount = 0;
 
     @Column (name = "files_total", nullable = false)
+    @Builder.Default
     private int filesTotal = 0;
 
     @Column (name = "files_processed", nullable = false)

@@ -12,6 +12,14 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // If already authenticated and visiting root or login, send straight to dashboard
+  if ((pathname === "/" || pathname === "/login") && isAuthed) {
+    const dash = request.nextUrl.clone();
+    dash.pathname = "/dashboard";
+    return NextResponse.redirect(dash);
+  }
+
+  // Protect internal app routes
   if (
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/chat")
@@ -25,18 +33,12 @@ export function proxy(request: NextRequest) {
     }
   }
 
-  if (pathname === "/login" && isAuthed) {
-    const dash = request.nextUrl.clone();
-    dash.pathname = "/dashboard";
-
-    return NextResponse.redirect(dash);
-  }
-
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
+    "/",
     "/dashboard/:path*",
     "/chat/:path*",
     "/login",

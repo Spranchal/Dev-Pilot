@@ -27,21 +27,21 @@ function LoginLoading() {
         <div className="flex min-h-svh items-center justify-center">
             <Spinner className="size-8" />
         </div>
-    )
+    );
 }
+
 const LoginPage = () => {
     const params = useSearchParams();
     const router = useRouter();
     const error = params.get('error');
     const next = params.get('next') || '/dashboard';
-    const { data: user, isLoading} = useCurrentUser();
+    const { data: user, isLoading } = useCurrentUser();
 
     useEffect(() => {
       if (!isLoading && user) {
         router.replace(next.startsWith("/") ? next : "/dashboard");
       }
     }, [user, isLoading, next, router]);
-
 
   return (
   <div className="relative flex min-h-svh flex-col overflow-hidden bg-background">
@@ -63,10 +63,10 @@ const LoginPage = () => {
           </div>
 
           <div className="space-y-1">
-            <CardTitle className="text-xl">Sign in</CardTitle>
+            <CardTitle className="text-xl">Sign in to DevPilot</CardTitle>
 
             <CardDescription>
-              Connect GitHub to chat with your repositories.
+              Connect your GitHub account to chat with your repositories.
             </CardDescription>
           </div>
         </CardHeader>
@@ -86,18 +86,27 @@ const LoginPage = () => {
             href={getGithubLoginUrl()}
             className={cn(
               buttonVariants({ size: "lg" }),
-              "inline-flex w-full items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90"
+              "inline-flex w-full items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 rounded-2xl transition-all hover:scale-[1.01]"
             )}
           >
             <GitHubIcon className="size-5" />
             Continue with GitHub
           </a>
+
+          <div className="text-center pt-2">
+            <Link
+              href="/"
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              ← Back to homepage
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </main>
   </div>
 );
-}
+};
 
 export default function Page() {
   return (
