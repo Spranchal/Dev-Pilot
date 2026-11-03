@@ -28,6 +28,7 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 import { useCurrentUser } from "@/hooks/use-auth";
 import { getGithubLoginUrl } from "@/lib/api";
 import { cn } from "@/lib/utils";
@@ -108,17 +109,32 @@ export default function HomePage() {
             <span>AI-Powered Repository Intelligence with Exact Code Citations</span>
           </div>
 
-          {/* Main Title */}
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">
-            Chat with your entire codebase like a{" "}
-            <span className="bg-gradient-to-r from-primary via-primary/80 to-accent-foreground bg-clip-text text-transparent">
-              senior engineer
-            </span>
-          </h1>
+          {/* Main Title with Animated Flip */}
+          <div className="flex flex-col items-center justify-center text-center">
+            <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">
+              Chat with your codebase like a
+            </h1>
+            <div className="mt-3 flex items-center justify-center">
+              <LayoutTextFlip
+                text="supercharged"
+                words={[
+                  "Senior Engineer",
+                  "Staff Architect",
+                  "Tech Lead",
+                  "Pair Programmer",
+                  "Security Auditor",
+                  "Codebase Expert",
+                ]}
+                duration={2600}
+                textClassName="text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-muted-foreground"
+                wordClassName="text-3xl font-extrabold sm:text-5xl lg:text-6xl px-4 py-1.5 rounded-2xl border-rose-500/30 bg-rose-500/10 text-rose-500 dark:text-rose-400 dark:border-rose-500/40 shadow-rose-500/10 ring-rose-500/20"
+              />
+            </div>
+          </div>
 
           {/* Subtitle */}
           <p className="mx-auto max-w-2xl text-base sm:text-xl text-muted-foreground leading-relaxed">
-            Connect your GitHub repositories, index code with dense vector embeddings, and get instant, grounded architectural answers backed by line-numbered citations.
+            Connect your GitHub repositories, index code with dense pgvector embeddings, and unlock deep architectural comprehension with exact file and line-numbered citations.
           </p>
 
           {/* Call to Actions */}
