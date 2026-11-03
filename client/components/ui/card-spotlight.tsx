@@ -12,42 +12,35 @@ interface CardSpotlightProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CardSpotlight({
   children,
-  radius = 280,
-  color = "rgba(139, 92, 246, 0.35)", // Vibrant violet/indigo spotlight
+  radius = 220,
+  color = "rgba(147, 51, 234, 0.35)", // Rich purple/violet spotlight
   className,
   ...props
 }: CardSpotlightProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef<{ x: number; y: number; active: boolean }>({
-    x: 0,
-    y: 0,
-    active: false,
-  });
   const [isHovered, setIsHovered] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
+  // Directly update CSS variables on mouse move for zero-latency, 100% sync with cursor
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    mouseRef.current = { x, y, active: true };
-    setMousePos({ x, y });
+    containerRef.current.style.setProperty("--mouse-x", `${x}px`);
+    containerRef.current.style.setProperty("--mouse-y", `${y}px`);
   }, []);
 
   const handleMouseEnter = useCallback(() => {
-    mouseRef.current.active = true;
     setIsHovered(true);
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    mouseRef.current.active = false;
     setIsHovered(false);
   }, []);
 
-  // Cybernetic matrix canvas effect - smooth 60fps loop using ref (no teardown on mousemove)
+  // Dense Aceternity-style cyber dot matrix
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -73,17 +66,17 @@ export function CardSpotlight({
     });
     resizeObserver.observe(container);
 
-    const dotSpacing = 10;
-    const dotSize = 1.4;
+    const dotSpacing = 7;
+    const dotSize = 1.1;
 
-    // Cyber palette: violet, sky, purple, blue, cyan
+    // Aceternity matrix colors: purple, violet, indigo, blue, cyan
     const colors = [
-      "rgba(147, 51, 234, 0.9)", // purple-600
-      "rgba(99, 102, 241, 0.9)", // indigo-500
-      "rgba(56, 189, 248, 0.95)", // sky-400
-      "rgba(168, 85, 247, 0.9)", // violet-500
-      "rgba(129, 140, 248, 0.9)", // indigo-400
-      "rgba(59, 130, 246, 0.95)", // blue-500
+      "#a855f7", // purple-500
+      "#8b5cf6", // violet-500
+      "#6366f1", // indigo-500
+      "#3b82f6", // blue-500
+      "#06b6d4", // cyan-500
+      "#c084fc", // purple-400
     ];
 
     let tick = 0;
@@ -92,9 +85,8 @@ export function CardSpotlight({
       const rect = container.getBoundingClientRect();
       ctx.clearRect(0, 0, rect.width, rect.height);
 
-      if (mouseRef.current.active) {
+      if (isHovered) {
         tick++;
-        const { x: mx, y: my } = mouseRef.current;
         const cols = Math.ceil(rect.width / dotSpacing);
         const rows = Math.ceil(rect.height / dotSpacing);
 
@@ -103,23 +95,16 @@ export function CardSpotlight({
             const x = c * dotSpacing + dotSpacing / 2;
             const y = r * dotSpacing + dotSpacing / 2;
 
-            const dx = x - mx;
-            const dy = y - my;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+            // Micro-shimmer per dot
+            const shimmer = Math.sin(c * 17.1 + r * 31.7 + tick * 0.06);
+            if (shimmer > -0.2) {
+              const colorIdx = Math.abs(Math.floor(c * 5 + r * 11 + tick * 0.04)) % colors.length;
+              ctx.fillStyle = colors[colorIdx];
+              ctx.globalAlpha = 0.55 + 0.45 * shimmer;
 
-            if (dist < radius) {
-              const falloff = 1 - dist / radius;
-              // Shimmer animation
-              const noise = Math.sin(c * 0.4 + r * 0.4 + tick * 0.08);
-
-              if (noise > -0.4) {
-                const colorIdx = (c * 3 + r * 7 + Math.floor(tick * 0.05)) % colors.length;
-                ctx.fillStyle = colors[Math.abs(colorIdx)];
-                ctx.globalAlpha = Math.max(0, Math.min(1, falloff * 1.1 * (0.6 + 0.4 * noise)));
-                ctx.beginPath();
-                ctx.arc(x, y, dotSize * (0.8 + 0.5 * falloff), 0, Math.PI * 2);
-                ctx.fill();
-              }
+              ctx.beginPath();
+              ctx.arc(x, y, dotSize, 0, Math.PI * 2);
+              ctx.fill();
             }
           }
         }
@@ -134,7 +119,7 @@ export function CardSpotlight({
       cancelAnimationFrame(animationFrameId);
       resizeObserver.disconnect();
     };
-  }, [radius]);
+  }, [isHovered]);
 
   return (
     <div
@@ -142,43 +127,52 @@ export function CardSpotlight({
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      style={
+        {
+          "--radius": `${radius}px`,
+          "--mouse-x": "-999px",
+          "--mouse-y": "-999px",
+        } as React.CSSProperties
+      }
       className={cn(
-        "group/spotlight relative overflow-hidden rounded-2xl border border-neutral-800 bg-[#0d0d10] p-0 shadow-lg transition-all duration-300 hover:border-violet-500/50 hover:shadow-2xl hover:shadow-violet-500/10",
+        "relative overflow-hidden rounded-2xl border border-neutral-800 bg-[#0c0c0e] p-0 shadow-lg transition-all duration-300 hover:border-purple-500/40 hover:shadow-2xl hover:shadow-purple-500/10",
         className
       )}
       {...props}
     >
-      {/* 1. Dynamic Radial Spotlight Glow */}
+      {/* 1. Aceternity Cyber Dot Matrix - MASKED strictly around cursor */}
+      <div
+        className="pointer-events-none absolute inset-0 size-full transition-opacity duration-300"
+        style={{
+          opacity: isHovered ? 1 : 0,
+          maskImage: `radial-gradient(var(--radius) circle at var(--mouse-x) var(--mouse-y), black 25%, transparent 75%)`,
+          WebkitMaskImage: `radial-gradient(var(--radius) circle at var(--mouse-x) var(--mouse-y), black 25%, transparent 75%)`,
+        }}
+      >
+        <canvas ref={canvasRef} className="size-full" />
+      </div>
+
+      {/* 2. Radial Spotlight Glow - EXACT SAME coordinates & mask as dots */}
       <div
         className="pointer-events-none absolute -inset-px rounded-2xl transition-opacity duration-300"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(${radius}px circle at ${mousePos.x}px ${mousePos.y}px, ${color}, rgba(99, 102, 241, 0.08) 40%, transparent 80%)`,
+          background: `radial-gradient(var(--radius) circle at var(--mouse-x) var(--mouse-y), ${color}, rgba(139, 92, 246, 0.12) 40%, transparent 80%)`,
         }}
       />
 
-      {/* 2. Cyber Dot Matrix Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="pointer-events-none absolute inset-0 size-full transition-opacity duration-300"
-        style={{
-          opacity: isHovered ? 1 : 0,
-        }}
-      />
-
-      {/* 3. Outer Glowing Border Highlight following cursor */}
+      {/* 3. Subtle inner border highlight following the spotlight */}
       <div
         className="pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-300"
         style={{
           opacity: isHovered ? 1 : 0,
-          boxShadow: `inset 0 0 20px rgba(139, 92, 246, 0.15)`,
-          border: `1px solid rgba(168, 85, 247, 0.4)`,
-          maskImage: `radial-gradient(${radius * 0.9}px circle at ${mousePos.x}px ${mousePos.y}px, black, transparent)`,
-          WebkitMaskImage: `radial-gradient(${radius * 0.9}px circle at ${mousePos.x}px ${mousePos.y}px, black, transparent)`,
+          border: `1px solid rgba(168, 85, 247, 0.45)`,
+          maskImage: `radial-gradient(calc(var(--radius) * 0.95) circle at var(--mouse-x) var(--mouse-y), black, transparent)`,
+          WebkitMaskImage: `radial-gradient(calc(var(--radius) * 0.95) circle at var(--mouse-x) var(--mouse-y), black, transparent)`,
         }}
       />
 
-      {/* 4. Card Content (z-20 ensures all interactive links/buttons remain clickable) */}
+      {/* 4. Interactive Card Content on top */}
       <div className="relative z-20 size-full flex flex-col">{children}</div>
     </div>
   );
