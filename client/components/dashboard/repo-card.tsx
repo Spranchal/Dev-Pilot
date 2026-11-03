@@ -17,6 +17,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CardSpotlight } from "@/components/ui/card-spotlight";
+import { StatefulButton } from "@/components/ui/stateful-button";
 
 import { IndexErrorAlert } from "./index-error-alert";
 import { RepoStatus } from "./repo-status";
@@ -220,13 +221,11 @@ export function RepoCard({
             )}
 
             {(repository.indexStatus === "PENDING" || repository.indexStatus === "FAILED") && onStartIndexing && (
-              <Button
+              <StatefulButton
                 type="button"
-                variant="default"
-                size="sm"
                 onClick={() => onStartIndexing(repository.id)}
                 disabled={isStartingIndexing}
-                className="h-7 rounded-lg bg-primary px-2.5 text-xs gap-1.5"
+                className="h-8 rounded-xl bg-rose-600 px-3 text-xs gap-1.5 font-medium text-white hover:bg-rose-500 hover:ring-rose-500"
               >
                 {repository.indexStatus === "FAILED" ? (
                   <RotateCw className="size-3.5" aria-hidden="true" />
@@ -234,7 +233,7 @@ export function RepoCard({
                   <Play className="size-3.5" aria-hidden="true" />
                 )}
                 {repository.indexStatus === "FAILED" ? "Retry" : "Index"}
-              </Button>
+              </StatefulButton>
             )}
           </div>
         </div>
