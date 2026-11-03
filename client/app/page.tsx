@@ -29,6 +29,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
+import { SparklesCore } from "@/components/ui/sparkles";
 import { useCurrentUser } from "@/hooks/use-auth";
 import { getGithubLoginUrl } from "@/lib/api";
 import { cn } from "@/lib/utils";
@@ -101,7 +102,21 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative px-4 pt-16 pb-20 sm:px-6 sm:pt-24 sm:pb-28 lg:px-8">
+      <section className="relative px-4 pt-16 pb-20 sm:px-6 sm:pt-24 sm:pb-28 lg:px-8 overflow-hidden">
+        {/* Ambient Hero Sparkles Background */}
+        <div className="pointer-events-none absolute inset-0 -z-10 h-full w-full">
+          <SparklesCore
+            id="hero-ambient-particles"
+            background="transparent"
+            minSize={0.4}
+            maxSize={1.4}
+            particleDensity={45}
+            className="size-full"
+            particleColor="#a855f7"
+            speed={1.2}
+          />
+        </div>
+
         <div className="mx-auto max-w-5xl text-center space-y-8">
           {/* Eyebrow Pill */}
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary shadow-sm backdrop-blur">
@@ -130,6 +145,30 @@ export default function HomePage() {
                 wordClassName="text-3xl font-extrabold sm:text-5xl lg:text-6xl px-4 py-1.5 rounded-2xl border-rose-500/30 bg-rose-500/10 text-rose-500 dark:text-rose-400 dark:border-rose-500/40 shadow-rose-500/10 ring-rose-500/20"
               />
             </div>
+          </div>
+
+          {/* Aceternity Sparkles Light Beam Divider */}
+          <div className="relative mx-auto -my-2 h-20 w-full max-w-2xl">
+            {/* Gradients */}
+            <div className="absolute inset-x-20 top-0 h-[2px] w-3/4 bg-gradient-to-r from-transparent via-rose-500 to-transparent blur-sm" />
+            <div className="absolute inset-x-20 top-0 h-px w-3/4 bg-gradient-to-r from-transparent via-rose-500 to-transparent" />
+            <div className="absolute inset-x-44 top-0 h-[4px] w-1/3 bg-gradient-to-r from-transparent via-purple-500 to-transparent blur-sm" />
+            <div className="absolute inset-x-44 top-0 h-px w-1/3 bg-gradient-to-r from-transparent via-purple-500 to-transparent" />
+
+            {/* Core Component */}
+            <SparklesCore
+              id="hero-laser-sparkles"
+              background="transparent"
+              minSize={0.4}
+              maxSize={1.4}
+              particleDensity={120}
+              className="size-full"
+              particleColor="#fb7185"
+              speed={1.5}
+            />
+
+            {/* Radial Gradient to fade out edges */}
+            <div className="pointer-events-none absolute inset-0 size-full bg-background [mask-image:radial-gradient(280px_100px_at_top,transparent_20%,white)]" />
           </div>
 
           {/* Subtitle */}
