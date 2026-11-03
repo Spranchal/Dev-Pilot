@@ -15,7 +15,8 @@ import { cn } from "cn";
 import type { Repository } from "@/lib/api";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardSpotlight } from "@/components/ui/card-spotlight";
 
 import { IndexErrorAlert } from "./index-error-alert";
 import { RepoStatus } from "./repo-status";
@@ -43,7 +44,11 @@ export function RepoCard({
     repository.indexStatus === "READY" || repository.indexStatus === "INDEXING";
 
   return (
-    <Card className="h-full gap-0 rounded-2xl border-border/70 bg-card py-0 shadow-none transition-colors hover:border-border hover:bg-muted/10">
+    <CardSpotlight
+      className="h-full gap-0 rounded-2xl border-border/70 bg-card/90 p-0 shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-xl dark:bg-card/70"
+      radius={260}
+      color="rgba(99, 102, 241, 0.16)"
+    >
       <CardHeader className="gap-3 px-4 pt-4 pb-3">
         <div className="flex min-w-0 items-start gap-3">
           <div
@@ -234,7 +239,7 @@ export function RepoCard({
           </div>
         </div>
       </CardContent>
-    </Card>
+    </CardSpotlight>
   );
 }
 
