@@ -45,9 +45,9 @@ export function RepoCard({
 
   return (
     <CardSpotlight
-      className="h-full gap-0 rounded-2xl border-border/70 bg-card/90 p-0 shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-xl dark:bg-card/70"
-      radius={260}
-      color="rgba(99, 102, 241, 0.16)"
+      className="h-full gap-0 rounded-2xl border-border/70 p-0 shadow-md transition-all duration-300"
+      radius={280}
+      color="rgba(139, 92, 246, 0.3)"
     >
       <CardHeader className="gap-3 px-4 pt-4 pb-3">
         <div className="flex min-w-0 items-start gap-3">
