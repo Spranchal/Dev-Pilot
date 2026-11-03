@@ -104,15 +104,16 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative px-4 pt-16 pb-20 sm:px-6 sm:pt-24 sm:pb-28 lg:px-8 overflow-hidden">
         {/* Ambient Hero Sparkles Background */}
-        <div className="pointer-events-none absolute inset-0 -z-10 h-full w-full">
+        <div className="pointer-events-none absolute inset-0 -z-10 h-full w-full [mask-image:radial-gradient(600px_400px_at_center,white_20%,transparent_100%)]">
           <SparklesCore
             id="hero-ambient-particles"
             background="transparent"
-            minSize={0.4}
-            maxSize={1.4}
-            particleDensity={45}
+            minSize={0.6}
+            maxSize={1.8}
+            particleDensity={60}
             className="size-full"
             particleColor="#a855f7"
+            particleColors={["#a855f7", "#ec4899", "#818cf8", "#f43f5e"]}
             speed={1.2}
           />
         </div>
@@ -148,27 +149,25 @@ export default function HomePage() {
           </div>
 
           {/* Aceternity Sparkles Light Beam Divider */}
-          <div className="relative mx-auto -my-2 h-20 w-full max-w-2xl">
+          <div className="relative mx-auto -my-1 h-28 sm:h-32 w-full max-w-2xl">
             {/* Gradients */}
             <div className="absolute inset-x-20 top-0 h-[2px] w-3/4 bg-gradient-to-r from-transparent via-rose-500 to-transparent blur-sm" />
             <div className="absolute inset-x-20 top-0 h-px w-3/4 bg-gradient-to-r from-transparent via-rose-500 to-transparent" />
             <div className="absolute inset-x-44 top-0 h-[4px] w-1/3 bg-gradient-to-r from-transparent via-purple-500 to-transparent blur-sm" />
-            <div className="absolute inset-x-44 top-0 h-px w-1/3 bg-gradient-to-r from-transparent via-purple-500 to-transparent" />
+            <div className="absolute inset-x-44 top-0 h-px w-1/3 bg-gradient-to-r from-transparent via-purple-400 to-transparent" />
 
             {/* Core Component */}
             <SparklesCore
               id="hero-laser-sparkles"
               background="transparent"
-              minSize={0.4}
-              maxSize={1.4}
-              particleDensity={120}
-              className="size-full"
+              minSize={0.6}
+              maxSize={2.2}
+              particleDensity={140}
+              className="size-full [mask-image:radial-gradient(350px_160px_at_top,white_30%,transparent_100%)]"
               particleColor="#fb7185"
-              speed={1.5}
+              particleColors={["#fb7185", "#f43f5e", "#c084fc", "#ffffff"]}
+              speed={1.6}
             />
-
-            {/* Radial Gradient to fade out edges */}
-            <div className="pointer-events-none absolute inset-0 size-full bg-background [mask-image:radial-gradient(280px_100px_at_top,transparent_20%,white)]" />
           </div>
 
           {/* Subtitle */}
