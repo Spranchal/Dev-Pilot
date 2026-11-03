@@ -28,6 +28,7 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { useCurrentUser } from "@/hooks/use-auth";
@@ -46,17 +47,13 @@ export default function HomePage() {
   }, [user, isLoading, router]);
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-background text-foreground overflow-x-hidden selection:bg-primary/20 selection:text-primary">
-      {/* Background Decorative Gradients */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 size-[650px] rounded-full bg-primary/10 blur-[120px] dark:bg-primary/15" />
-        <div className="absolute top-1/3 -right-40 size-[500px] rounded-full bg-accent/30 blur-[130px] dark:bg-primary/5" />
-        <div className="absolute bottom-10 -left-40 size-[500px] rounded-full bg-primary/5 blur-[100px]" />
-      </div>
-
+    <AuroraBackground
+      className="relative min-h-screen flex flex-col bg-background text-foreground dark:bg-background overflow-x-hidden selection:bg-primary/20 selection:text-primary"
+      showRadialGradient={true}
+    >
       {/* Navigation Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-50 w-full bg-transparent">
+        <div className="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-2.5 font-bold tracking-tight">
             <DevPilotIcon className="size-8 rounded-[10px]" />
             <span className="text-lg font-semibold tracking-tight">DevPilot</span>
@@ -540,6 +537,6 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
-    </div>
+    </AuroraBackground>
   );
 }
