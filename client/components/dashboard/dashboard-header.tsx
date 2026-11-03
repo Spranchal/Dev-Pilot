@@ -1,7 +1,9 @@
-import { PanelLeft, RefreshCw, Search } from "lucide-react";
+"use client";
+
+import { PanelLeft, RefreshCw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { GooeyInput } from "@/components/ui/gooey-input";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 
 type DashboardHeaderProps = {
@@ -38,35 +40,31 @@ export function DashboardHeader({
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          <div className="relative min-w-0 sm:w-60">
-            <Search
-              aria-hidden="true"
-              className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
-            />
-            <Input
-              type="search"
-              value={search}
-              onChange={(event) => onSearchChange(event.target.value)}
-              placeholder="Search repositories..."
-              aria-label="Search repositories"
-              className="h-9 bg-muted/40 pl-9"
-            />
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <GooeyInput
+            value={search}
+            onValueChange={onSearchChange}
+            placeholder="Search repositories..."
+            collapsedWidth={115}
+            expandedWidth={220}
+            expandedOffset={46}
+          />
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onRefresh}
+              disabled={isRefreshing}
+            >
+              <RefreshCw
+                aria-hidden="true"
+                className={isRefreshing ? "animate-spin" : undefined}
+              />
+              {isRefreshing ? "Syncing..." : "Sync"}
+            </Button>
+            <ModeToggle />
           </div>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={onRefresh}
-            disabled={isRefreshing}
-          >
-            <RefreshCw
-              aria-hidden="true"
-              className={isRefreshing ? "animate-spin" : undefined}
-            />
-            {isRefreshing ? "Syncing..." : "Sync"}
-          </Button>
-          <ModeToggle />
         </div>
       </div>
     </div>
