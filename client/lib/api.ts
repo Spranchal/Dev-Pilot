@@ -81,6 +81,9 @@ export function getApiBaseUrl() {
 }
 
 export function getGithubLoginUrl() {
+    if (typeof window !== "undefined" && window.location.origin) {
+        return `${getApiBaseUrl()}/oauth2/authorization/github?return_to=${encodeURIComponent(window.location.origin)}`;
+    }
     return `${getApiBaseUrl()}/oauth2/authorization/github`; 
 }
 
