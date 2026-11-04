@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useCurrentUser } from "@/hooks/use-auth";
-import { Spinner } from "@/components/ui/spinner";
+import { LoadingScreen } from "@/components/loading-ui/loading-screen";
 
 export function RequireAuth({
   children,
@@ -21,12 +21,10 @@ export function RequireAuth({
 
   if (isLoading) {
     return (
-      <div className="flex min-h-svh items-center justify-center">
-        <div className="flex flex-col items-center gap-3 text-muted-foreground">
-          <Spinner className="size-6" />
-          <p className="text-sm">Loading your workspace...</p>
-        </div>
-      </div>
+      <LoadingScreen
+        message="Loading your workspace..."
+        submessage="Verifying credentials and access"
+      />
     );
   }
 

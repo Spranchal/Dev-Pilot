@@ -24,6 +24,7 @@ import { IndexingState } from "./indexing-state";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
+import { LoadingScreen } from "@/components/loading-ui/loading-screen";
 
 type Message = {
   id: string;
@@ -141,12 +142,10 @@ export default function ChatView({ repoId }: { repoId: string }) {
   // Loading repo details
   if (repoQuery.isLoading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-background">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="size-8 animate-spin text-primary" />
-          <p className="text-sm text-muted-foreground">Loading repository...</p>
-        </div>
-      </div>
+      <LoadingScreen
+        message="Loading repository..."
+        submessage="Connecting codebase context and semantic index"
+      />
     );
   }
 

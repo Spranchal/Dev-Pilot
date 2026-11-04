@@ -17,17 +17,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Spinner } from '@/components/ui/spinner';
+import { LoadingScreen } from '@/components/loading-ui/loading-screen';
 import { cn } from '@/lib/utils';
 import { getGithubLoginUrl } from '@/lib/api';
 import { useCurrentUser } from '@/hooks/use-auth';
 
 function LoginLoading() {
-    return (
-        <div className="flex min-h-svh items-center justify-center">
-            <Spinner className="size-8" />
-        </div>
-    );
+    return <LoadingScreen message="Checking session..." />;
 }
 
 const LoginPage = () => {
