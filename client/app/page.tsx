@@ -29,6 +29,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AuroraBackground } from "@/components/ui/aurora-background";
+import { LiquidGlass } from "@/components/ui/liquid-glass";
 import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { useCurrentUser } from "@/hooks/use-auth";
@@ -72,27 +73,37 @@ export default function HomePage() {
             <ModeToggle />
 
             {!isLoading && user ? (
-              <Link
-                href="/dashboard"
-                className={cn(
-                  buttonVariants({ variant: "default", size: "sm" }),
-                  "gap-2 rounded-xl px-4 font-medium shadow-sm shadow-primary/20"
-                )}
+              <LiquidGlass
+                radius={16}
+                bevelDepth={6}
+                scale={18}
+                tint={0.14}
+                className="group hover:scale-[1.02] transition-transform"
               >
-                <span>Dashboard</span>
-                <ArrowRight className="size-3.5" />
-              </Link>
+                <Link
+                  href="/dashboard"
+                  className="flex h-9 items-center gap-2 px-4 text-sm font-semibold text-foreground"
+                >
+                  <span>Dashboard</span>
+                  <ArrowRight className="size-3.5" />
+                </Link>
+              </LiquidGlass>
             ) : (
-              <a
-                href={githubLoginUrl}
-                className={cn(
-                  buttonVariants({ variant: "default", size: "sm" }),
-                  "gap-2 rounded-xl bg-foreground text-background hover:bg-foreground/90 px-4 font-medium shadow-sm transition-all hover:scale-[1.02]"
-                )}
+              <LiquidGlass
+                radius={16}
+                bevelDepth={6}
+                scale={18}
+                tint={0.14}
+                className="group hover:scale-[1.02] transition-transform"
               >
-                <GitHubIcon className="size-4" />
-                <span>Sign in with GitHub</span>
-              </a>
+                <a
+                  href={githubLoginUrl}
+                  className="flex h-9 items-center gap-2 px-4 text-sm font-semibold text-foreground"
+                >
+                  <GitHubIcon className="size-4" />
+                  <span>Sign in with GitHub</span>
+                </a>
+              </LiquidGlass>
             )}
           </nav>
         </div>
@@ -117,10 +128,16 @@ export default function HomePage() {
 
         <div className="mx-auto max-w-5xl text-center space-y-8">
           {/* Eyebrow Pill */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary shadow-sm backdrop-blur">
-            <Sparkles className="size-3.5 animate-pulse" />
+          <LiquidGlass
+            radius={999}
+            bevelDepth={6}
+            scale={16}
+            tint={0.08}
+            className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-medium text-primary shadow-sm"
+          >
+            <Sparkles className="size-3.5 animate-pulse text-rose-500" />
             <span>AI-Powered Repository Intelligence with Exact Code Citations</span>
-          </div>
+          </LiquidGlass>
 
           {/* Main Title with Animated Flip */}
           <div className="flex flex-col items-center justify-center text-center">
@@ -175,40 +192,55 @@ export default function HomePage() {
           {/* Call to Actions */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             {!isLoading && user ? (
-              <Link
-                href="/dashboard"
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "w-full sm:w-auto h-12 rounded-2xl bg-primary px-8 text-base font-semibold shadow-lg shadow-primary/25 hover:bg-primary/90 gap-2.5 transition-all hover:scale-[1.02]"
-                )}
+              <LiquidGlass
+                radius={24}
+                bevelDepth={10}
+                scale={28}
+                tint={0.18}
+                className="w-full sm:w-auto group hover:scale-[1.02] transition-transform duration-200"
               >
-                <FolderGit2 className="size-5" />
-                Open Your Repositories
-                <ArrowRight className="size-4" />
-              </Link>
+                <Link
+                  href="/dashboard"
+                  className="flex h-12 items-center justify-center gap-2.5 px-8 text-base font-semibold text-foreground"
+                >
+                  <FolderGit2 className="size-5 text-rose-500" />
+                  Open Your Repositories
+                  <ArrowRight className="size-4" />
+                </Link>
+              </LiquidGlass>
             ) : (
-              <a
-                href={githubLoginUrl}
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "w-full sm:w-auto h-12 rounded-2xl bg-foreground text-background px-8 text-base font-semibold shadow-lg hover:bg-foreground/90 gap-2.5 transition-all hover:scale-[1.02]"
-                )}
+              <LiquidGlass
+                radius={24}
+                bevelDepth={10}
+                scale={28}
+                tint={0.18}
+                className="w-full sm:w-auto group hover:scale-[1.02] transition-transform duration-200"
               >
-                <GitHubIcon className="size-5" />
-                Continue with GitHub
-                <ArrowRight className="size-4" />
-              </a>
+                <a
+                  href={githubLoginUrl}
+                  className="flex h-12 items-center justify-center gap-2.5 px-8 text-base font-semibold text-foreground"
+                >
+                  <GitHubIcon className="size-5" />
+                  Continue with GitHub
+                  <ArrowRight className="size-4" />
+                </a>
+              </LiquidGlass>
             )}
 
-            <a
-              href="#how-it-works"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "lg" }),
-                "w-full sm:w-auto h-12 rounded-2xl px-6 text-base font-medium border-border/80 hover:bg-muted/30"
-              )}
+            <LiquidGlass
+              radius={24}
+              bevelDepth={8}
+              scale={22}
+              tint={0.06}
+              className="w-full sm:w-auto group hover:scale-[1.02] transition-transform duration-200"
             >
-              See How It Works
-            </a>
+              <a
+                href="#how-it-works"
+                className="flex h-12 items-center justify-center px-6 text-base font-medium text-foreground/90 hover:text-foreground"
+              >
+                See How It Works
+              </a>
+            </LiquidGlass>
           </div>
 
           {/* Trust Highlights */}
@@ -234,9 +266,15 @@ export default function HomePage() {
 
         {/* Live Interactive Mockup Showcase */}
         <div className="mx-auto mt-14 max-w-5xl">
-          <div className="relative rounded-3xl border border-border/80 bg-card/60 p-2 sm:p-3 shadow-2xl backdrop-blur-xl">
+          <LiquidGlass
+            radius={28}
+            bevelDepth={14}
+            scale={36}
+            tint={0.06}
+            className="p-2 sm:p-3"
+          >
             {/* Terminal Top Bar */}
-            <div className="flex items-center justify-between px-3 py-2 border-b border-border/50 text-xs text-muted-foreground">
+            <div className="flex items-center justify-between px-3 py-2 border-b border-border/40 text-xs text-muted-foreground">
               <div className="flex items-center gap-2">
                 <div className="flex gap-1.5">
                   <div className="size-3 rounded-full bg-red-500/80" />
@@ -311,7 +349,7 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-          </div>
+          </LiquidGlass>
         </div>
       </section>
 
@@ -328,77 +366,101 @@ export default function HomePage() {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <Card className="rounded-3xl border-border/70 bg-card shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-2">
-                  <Search className="size-5" />
-                </div>
-                <CardTitle className="text-lg">Semantic Code Search</CardTitle>
-                <CardDescription>
-                  Goes far beyond keyword searches. DevPilot finds relevant classes, logic, and patterns even if you don't know the exact method names.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <LiquidGlass
+              radius={24}
+              bevelDepth={12}
+              scale={28}
+              tint={0.06}
+              className="p-6 transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 group flex flex-col justify-start"
+            >
+              <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-3">
+                <Search className="size-5" />
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2">Semantic Code Search</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Goes far beyond keyword searches. DevPilot finds relevant classes, logic, and patterns even if you don't know the exact method names.
+              </p>
+            </LiquidGlass>
 
-            <Card className="rounded-3xl border-border/70 bg-card shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-2">
-                  <FileCode2 className="size-5" />
-                </div>
-                <CardTitle className="text-lg">Grounded Line Citations</CardTitle>
-                <CardDescription>
-                  Every answer provides direct references to the exact file path and line numbers, eliminating AI hallucinations and saving code navigation time.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <LiquidGlass
+              radius={24}
+              bevelDepth={12}
+              scale={28}
+              tint={0.06}
+              className="p-6 transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 group flex flex-col justify-start"
+            >
+              <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-3">
+                <FileCode2 className="size-5" />
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2">Grounded Line Citations</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Every answer provides direct references to the exact file path and line numbers, eliminating AI hallucinations and saving code navigation time.
+              </p>
+            </LiquidGlass>
 
-            <Card className="rounded-3xl border-border/70 bg-card shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-2">
-                  <Zap className="size-5" />
-                </div>
-                <CardTitle className="text-lg">One-Click Indexing</CardTitle>
-                <CardDescription>
-                  Select any public or private repository from your GitHub account. DevPilot chunks, embeds, and indexes your project in background workers.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <LiquidGlass
+              radius={24}
+              bevelDepth={12}
+              scale={28}
+              tint={0.06}
+              className="p-6 transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 group flex flex-col justify-start"
+            >
+              <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-3">
+                <Zap className="size-5" />
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2">One-Click Indexing</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Select any public or private repository from your GitHub account. DevPilot chunks, embeds, and indexes your project in background workers.
+              </p>
+            </LiquidGlass>
 
-            <Card className="rounded-3xl border-border/70 bg-card shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-2">
-                  <ShieldCheck className="size-5" />
-                </div>
-                <CardTitle className="text-lg">Enterprise Security</CardTitle>
-                <CardDescription>
-                  Your GitHub access tokens are encrypted with AES-256 GCM using unique salts. Code chunks remain safely isolated to your private PostgreSQL instance.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <LiquidGlass
+              radius={24}
+              bevelDepth={12}
+              scale={28}
+              tint={0.06}
+              className="p-6 transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 group flex flex-col justify-start"
+            >
+              <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-3">
+                <ShieldCheck className="size-5" />
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2">Enterprise Security</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Your GitHub access tokens are encrypted with AES-256 GCM using unique salts. Code chunks remain safely isolated to your private PostgreSQL instance.
+              </p>
+            </LiquidGlass>
 
-            <Card className="rounded-3xl border-border/70 bg-card shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-2">
-                  <Cpu className="size-5" />
-                </div>
-                <CardTitle className="text-lg">Google Gemini 3.5 Flash</CardTitle>
-                <CardDescription>
-                  Leverages the high reasoning speed and huge context window of Gemini 3.5 Flash to synthesize clear, multi-file architectural breakdowns.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <LiquidGlass
+              radius={24}
+              bevelDepth={12}
+              scale={28}
+              tint={0.06}
+              className="p-6 transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 group flex flex-col justify-start"
+            >
+              <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-3">
+                <Cpu className="size-5" />
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2">Google Gemini 3.5 Flash</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Leverages the high reasoning speed and huge context window of Gemini 3.5 Flash to synthesize clear, multi-file architectural breakdowns.
+              </p>
+            </LiquidGlass>
 
-            <Card className="rounded-3xl border-border/70 bg-card shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-2">
-                  <Database className="size-5" />
-                </div>
-                <CardTitle className="text-lg">Postgres PgVector HNSW</CardTitle>
-                <CardDescription>
-                  Hierarchical Navigable Small World (HNSW) cosine indexing delivers sub-50ms vector retrieval across tens of thousands of code chunks.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <LiquidGlass
+              radius={24}
+              bevelDepth={12}
+              scale={28}
+              tint={0.06}
+              className="p-6 transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 group flex flex-col justify-start"
+            >
+              <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-3">
+                <Database className="size-5" />
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2">Postgres PgVector HNSW</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Hierarchical Navigable Small World (HNSW) cosine indexing delivers sub-50ms vector retrieval across tens of thousands of code chunks.
+              </p>
+            </LiquidGlass>
           </div>
         </div>
       </section>
@@ -416,35 +478,53 @@ export default function HomePage() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-3">
-            <div className="relative rounded-3xl border border-border/70 bg-card p-6 space-y-4">
-              <span className="flex size-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-bold text-sm">
+            <LiquidGlass
+              radius={24}
+              bevelDepth={12}
+              scale={28}
+              tint={0.06}
+              className="p-6 space-y-4 transition-all duration-300 hover:scale-[1.02]"
+            >
+              <span className="flex size-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-bold text-sm shadow-md shadow-primary/20">
                 1
               </span>
-              <h3 className="text-lg font-semibold">Connect GitHub</h3>
+              <h3 className="text-lg font-semibold text-foreground">Connect GitHub</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Log in securely using GitHub OAuth. DevPilot discovers all your repositories and branches automatically.
               </p>
-            </div>
+            </LiquidGlass>
 
-            <div className="relative rounded-3xl border border-border/70 bg-card p-6 space-y-4">
-              <span className="flex size-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-bold text-sm">
+            <LiquidGlass
+              radius={24}
+              bevelDepth={12}
+              scale={28}
+              tint={0.06}
+              className="p-6 space-y-4 transition-all duration-300 hover:scale-[1.02]"
+            >
+              <span className="flex size-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-bold text-sm shadow-md shadow-primary/20">
                 2
               </span>
-              <h3 className="text-lg font-semibold">Index Codebase</h3>
+              <h3 className="text-lg font-semibold text-foreground">Index Codebase</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Click Index. DevPilot skips binaries and lockfiles, chunks syntax cleanly, and computes 768-dim dense embeddings.
               </p>
-            </div>
+            </LiquidGlass>
 
-            <div className="relative rounded-3xl border border-border/70 bg-card p-6 space-y-4">
-              <span className="flex size-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-bold text-sm">
+            <LiquidGlass
+              radius={24}
+              bevelDepth={12}
+              scale={28}
+              tint={0.06}
+              className="p-6 space-y-4 transition-all duration-300 hover:scale-[1.02]"
+            >
+              <span className="flex size-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-bold text-sm shadow-md shadow-primary/20">
                 3
               </span>
-              <h3 className="text-lg font-semibold">Ask Anything</h3>
+              <h3 className="text-lg font-semibold text-foreground">Ask Anything</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Ask architectural questions, locate implementation details, or plan refactoring with real source code context.
               </p>
-            </div>
+            </LiquidGlass>
           </div>
         </div>
       </section>
@@ -475,42 +555,58 @@ export default function HomePage() {
 
       {/* Final Call to Action */}
       <section className="relative px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl rounded-3xl border border-primary/20 bg-gradient-to-b from-primary/10 via-card to-card p-8 sm:p-14 text-center space-y-6 shadow-xl">
+        <LiquidGlass
+          radius={28}
+          bevelDepth={16}
+          scale={38}
+          tint={0.07}
+          className="mx-auto max-w-4xl p-8 sm:p-14 text-center space-y-6"
+        >
           <DevPilotIcon className="mx-auto size-14 rounded-2xl shadow-md" />
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
             Start exploring your codebase with DevPilot
           </h2>
-          <p className="text-muted-foreground max-w-lg mx-auto text-sm sm:text-base">
+          <p className="text-muted-foreground max-w-lg mx-auto text-sm sm:text-base leading-relaxed">
             No credit card, no complex server setup. Just connect your GitHub account and begin chatting with your code in minutes.
           </p>
 
-          <div className="pt-2">
+          <div className="pt-2 flex justify-center">
             {!isLoading && user ? (
-              <Link
-                href="/dashboard"
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "h-12 rounded-2xl bg-primary px-8 text-base font-semibold shadow-lg shadow-primary/25 hover:bg-primary/90 gap-2.5"
-                )}
+              <LiquidGlass
+                radius={20}
+                bevelDepth={8}
+                scale={24}
+                tint={0.2}
+                className="group hover:scale-[1.02] transition-transform duration-200"
               >
-                Go to Workspace Dashboard
-                <ArrowRight className="size-4" />
-              </Link>
+                <Link
+                  href="/dashboard"
+                  className="flex h-12 items-center justify-center gap-2.5 px-8 text-base font-semibold text-foreground"
+                >
+                  Go to Workspace Dashboard
+                  <ArrowRight className="size-4" />
+                </Link>
+              </LiquidGlass>
             ) : (
-              <a
-                href={githubLoginUrl}
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "h-12 rounded-2xl bg-foreground text-background px-8 text-base font-semibold shadow-lg hover:bg-foreground/90 gap-2.5 transition-all hover:scale-[1.02]"
-                )}
+              <LiquidGlass
+                radius={20}
+                bevelDepth={8}
+                scale={24}
+                tint={0.2}
+                className="group hover:scale-[1.02] transition-transform duration-200"
               >
-                <GitHubIcon className="size-5" />
-                Sign in with GitHub
-                <ArrowRight className="size-4" />
-              </a>
+                <a
+                  href={githubLoginUrl}
+                  className="flex h-12 items-center justify-center gap-2.5 px-8 text-base font-semibold text-foreground"
+                >
+                  <GitHubIcon className="size-5" />
+                  Sign in with GitHub
+                  <ArrowRight className="size-4" />
+                </a>
+              </LiquidGlass>
             )}
           </div>
-        </div>
+        </LiquidGlass>
       </section>
 
       {/* Footer */}
