@@ -399,3 +399,4 @@ function buildFilterSvg({
   <feGaussianBlur in="rgb" stdDeviation="${frost}"/>
 </filter></svg>`;
 }
+
